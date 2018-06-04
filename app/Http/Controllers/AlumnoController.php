@@ -7,7 +7,8 @@ use App\Alumno;
 use App\Curso;
 use App\AlumnoCurso;
 use Response;
-
+use App\Events\Chat;
+use Pusher;
 class AlumnoController extends Controller
 {
     /**
@@ -19,6 +20,19 @@ class AlumnoController extends Controller
     {
         return view('alumno.index');
     }
+
+    public function echo()
+    {
+        return view('alumno.echo');
+    }
+
+    public function chat(Request $request)
+    {
+        broadcast(new Chat($request->message))->toOthers();
+
+        return 'Ok';
+    }
+
 
     /**
      * Show the form for creating a new resource.
